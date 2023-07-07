@@ -1,0 +1,85 @@
+@using System.Security.Claims
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@{
+    var user = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role);
+  var currentYear = DateTime.Now.Year;
+}
+ 
+
+<!-- ======= Footer ======= -->
+  <footer id="footer" class="footer">
+
+    <div class="footer-content">
+      <div class="container">
+        <div class="row gy-4">
+          <div class="col-lg-6 col-md-12 footer-info">
+            <a href="index.html" class="logo d-flex align-items-center">
+                        <!-- Uncomment the line below if you also wish to use an image logo -->
+                        <img src="~/img/logo-undana.png" alt="">
+                        <span>PBK Penyakit Gigi & Mulut</span>
+                        </a>
+                    <p style="text-align: justify ">
+                        Temukan solusi mudah dan efektif untuk masalah gigi dan mulut Anda dengan sistem diagnosa penyakit gigi dan mulut kami. 
+                        Dapatkan layanan konsultasi terpersonalisasi yang didukung oleh penerapan <em>Case Based Reasoing</em> dan algoritma <em>Manhattan Distance</em>, memberikan diagnosa terbaik dan spesifik sesuai dengan keluhan Anda.
+                    </p>
+          </div>
+
+          <div class="col-lg-2 col-6 footer-links">
+            <h4>Link</h4>
+            <ul>
+              <li><i class="bi bi-dash"></i> <a asp-action="Index">Home</a></li>
+
+              @if (user is not null)
+              {
+                @if (user.Value == "1")
+                {
+                  <li><i class="bi bi-dash"></i> <a target="_blank" asp-action="Index" asp-controller="Admin">Dashboard</a></li>
+                }
+                 <li><i class="bi bi-dash"></i> <a asp-action="Konsultasi">Konsultasi</a></li>
+                <li><i class="bi bi-dash"></i> <a asp-action="">Riwayat</a></li>
+              }
+            </ul>
+          </div>
+          
+
+          <div class="col-lg-4 col-md-12 footer-contact text-center text-md-start">
+            <h4>Hubungi Kami</h4>
+            @* <p> *@
+            @*  Jl. Kp Tegal <br> *@
+            @*   Pagedangan, Tanggerang Selatan<br> *@
+            @*   Indonesia <br><br> *@
+            @*   <strong>Phone:</strong> +62 812 3782 8173<br> *@
+            @*   <strong>Email:</strong>muhammad.prasetyo@ocbcnisp.com<br> *@
+            @* </p> *@
+            
+            <p>
+              Jl. Adisucipto Penfui, <br>
+              Kupang, NTT<br>
+              Indonesia <br><br>
+              <strong>Phone:</strong> +62 813 3864 7896<br>
+              <strong>Email:</strong> dita.natasha@gmail.com<br>
+            </p>
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <div class="footer-legal">
+      <div class="container">
+        <div class="copyright">
+          @* &copy; Copyright <strong><span>Iqrom</span></strong>. All Rights Reserved *@
+          Copyright &copy; <strong><span>@currentYear</span></strong>. All Rights Reserved
+        </div>
+        <div class="credits">
+
+        </div>
+      </div>
+    </div>
+  </footer><!-- End Footer -->
+  <!-- End Footer -->
+
+  <a href="#" class="scroll-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+
+  <div id="preloader"></div>

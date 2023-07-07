@@ -1,0 +1,29 @@
+
+
+@{
+     ViewData["Title"] = "Forbidden";
+    Layout = "_Layout";
+}
+
+<section class="auth">
+     <div class="container py-5">
+          <div class="card shadow" style="background-color: rgba(255,255,255,0.68)">
+               <div class="row mt-5 mb-5">
+                    <div class="col-md-2 text-center">
+                         <p><i class="bi bi-exclamation-triangle" style="font-size: 4em; color: rgba(236,178,21,0.81)"></i><br/>Status Code: 403</p>
+                    </div>
+                    <div class="col-md-10">
+                         <h3>OPPSSS!!!! Maaf...</h3>
+                         <p>
+                              Akses anda ke halaman ini ditolak karena masalah keamanan dan privasi data kami. 
+                              <br/> Silahkan kembali ke halaman sebelumnya atau halaman lain untuk melanjutkan
+                         </p>
+                         <a class="btn btn-primary" href="javascript:history.back()">Kembali</a>
+                    </div>
+               </div>
+          </div>
+
+     </div> 
+</section>
+
+

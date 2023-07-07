@@ -1,0 +1,83 @@
+@model PBK_dita.Models.Penyakit
+
+@{
+    ViewData["Title"] = "Edit Penyakit";
+  ViewData["controller"] = "Admin";
+  ViewData["action"] = "Data Penyakit";
+    Layout = "_LayoutAdmin";
+}
+
+<style>
+  
+</style>
+
+<div class="card mb-4">
+  <div class="card-header"><strong>Edit Data Penyakit</strong></div>
+  <div class="card-body">
+    <form asp-action="EditPenyakit" asp-controller="Admin" method="POST" enctype="multipart/form-data">
+      <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+      <div class="row mb-3">
+        <label asp-for="KodePenyakit" class="col-sm-2 col-form-label"></label>
+        <div class="col-sm-5">
+          <input type="text" class="form-control" asp-for="KodePenyakit">
+          <span asp-validation-for="KodePenyakit" class="text-danger"></span>
+        </div>
+      </div>
+      <div class="row mb-3">
+        <label asp-for="Nama" class="col-sm-2 col-form-label"></label>
+        <div class="col-sm-5">
+          <input type="text" class="form-control" asp-for="Nama">
+          <span asp-validation-for="Nama" class="text-danger"></span>
+        </div>
+      </div>
+      <div class="row mb-3">
+        <label asp-for="Deskripsi" class="col-sm-2 col-form-label"></label>
+        <div class="col-sm-5">
+          <textarea rows="5" type="text" class="form-control" asp-for="Deskripsi"></textarea>
+          <span asp-validation-for="Deskripsi" class="text-danger"></span>
+        </div>
+      </div>
+      <div class="row mb-3">
+        <label asp-for="Solusi" class="col-sm-2 col-form-label"></label>
+        <div class="col-sm-5">
+          <textarea rows="5" type="text" class="form-control" asp-for="Solusi"></textarea>
+          <span asp-validation-for="Solusi" class="text-danger"></span>
+        </div>
+      </div>
+      <div class="row mb-3">
+        <label asp-for="ImageFile" class="col-sm-2 col-form-label"></label>
+        <div class="col-sm-5">
+          <input type="file" id="image" accept="image/*" class="form-control" asp-for="ImageFile" onchange="previewImage()">
+          <img id="thumbnail" src="~/img/penyakit/@Model.Gambar" class="img-thumbnail" alt="preview">
+          <input type="hidden" asp-for="Gambar"/>
+          <span asp-validation-for="ImageFile" class="text-danger"></span>
+        </div>
+      </div>
+      <input type="hidden" class="form-control" name="kodeLama" value="@Model.KodePenyakit">
+      <button type="submit" class="btn btn-primary">Ubah</button>
+      <a asp-action="Penyakit" class="btn btn-primary">Kembali</a>
+    </form>
+  </div>
+</div>
+
+<script>
+
+const previewImage = ()=>{
+
+  const thumbnail = document.getElementById('thumbnail');
+  const input = document.getElementById('image');
+  thumbnail.src = URL.createObjectURL(input.files[0]);
+  
+}
+
+window.onload = (event) => {
+  
+      const input = document.getElementById('image');
+      const dataTransfer = new DataTransfer();
+      dataTransfer.items.add(@Model.ImageFile);
+      input.files = dataTransfer.files;
+
+};
+
+
+</script>

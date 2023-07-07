@@ -1,0 +1,60 @@
+@model IEnumerable<PBK_dita.Models.Gejala>
+
+@{
+    ViewData["Title"] = "Gejala";
+    ViewData["controller"] = "Admin";
+    ViewData["action"] = "Data Gejala";
+    Layout = "_LayoutAdmin";
+}
+
+
+<div class="card mb-4">
+    <div class="card-header"><strong>Data Penyakit</strong></div>
+    <div class="card-body">
+        <a asp-action="TambahGejala" asp-controller="Admin" class="btn btn-primary mb-3"><i class="bi bi-plus-lg"></i> Tambah Data</a>
+        <table id="table" class="table table-striped" style="width:100%">
+            <thead>
+            <tr>
+                <th>No</th>
+                <th>@Html.DisplayNameFor(model => model.KodeGejala)</th>
+                <th>@Html.DisplayNameFor(model => model.Nama)</th>
+                <th>Aksi</th>
+            </tr>
+            </thead>
+            @{
+                if (Model.Count() > 0)
+                {
+                    int i = 1;
+                    <tbody>
+                    
+                    @foreach (var gejala in Model)
+                    {<tr>
+                         <td>@i</td>
+                         <td>@gejala.KodeGejala</td>
+                         <td>@gejala.Nama</td>
+                         <td>
+                             <div class="d-flex">
+                                 <a class="btn btn-warning" asp-action="EditGejala" asp-route-id="@gejala.Id">
+                                     <i class="bi bi-pencil-square"></i>
+                                 </a>
+                             
+                                 @* ada bug waktu kirim id lewat asp-route, jd diakalin paka js aja *@
+                                 <button class="btn btn-danger ms-2" onclick="onDeleteClick(@gejala.Id,'Gejala')">
+                                     <i class="bi bi-trash3"></i>
+                                     </button>
+
+                             </div>
+                         </td>
+                     </tr>
+                        i++;
+                    }
+                   
+                    </tbody>
+                }
+            }
+
+        </table>
+    </div>
+</div>
+
+

@@ -1,0 +1,154 @@
+@model IEnumerable<Gejala>
+
+@{
+    ViewBag.Title = "Konsultasi";
+    Layout = "_Layout";
+}
+
+<style>
+    .alert ul{
+        list-style: none;
+        margin : 0;
+    } 
+     .alert  li::before{
+        content: '\F33A';
+        font-family: "bootstrap-icons";
+        margin-right: 5px;
+     } 
+</style>
+
+<!-- ======= Breadcrumbs ======= -->
+    <div class="breadcrumbs d-flex align-items-center" style="background-image: url('https://img-cdn.medkomtek.com/ivaCl1r_xCP6Tv2Rw6-c9ebVozM=/0x0/smart/filters:quality(75):strip_icc():format(webp)/article/5fEPTNUj06VrOKD22_5CZ/original/062218200_1640943696-Konsultasi-dengan-Dokter.jpg');">
+      <div class="container position-relative d-flex flex-column align-items-center">
+
+        <h2>Konsultasi</h2>
+        <ol>
+          <li><a asp-action="Index">Home</a></li>
+          <li>Konsultasi</li>
+        </ol>
+
+      </div>
+    </div><!-- End Breadcrumbs -->
+
+@if (ViewBag.result is null)
+{
+    <!-- ======= Table Section ======= -->
+    <section id="about" class="about">
+        <div class="container" data-aos="fade-up">
+            <div asp-validation-summary="ModelOnly" class="alert alert-danger">
+            </div>
+            <div class="card shadow">
+                <div class="card-header text-center">
+                    <h2 class="title">Pilih Gejala</h2>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive table-100">
+                        <form asp-action="Konsultasi" method="POST">
+                            <table class="table table-striped table-bordered mb-0">
+                                <thead>
+                                <tr style="background-color: #324357; color: white">
+                                    <th class="table-90 align-center">Kode Gejala</th>
+                                    <th class="table-90 align-center">Nama Gejala</th>
+                                    <th class="table-10">Pilih</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                @foreach (var gejala in Model)
+                                {
+                                    <tr>
+                                        <td>@gejala.KodeGejala</td>
+                                        <td>@gejala.Nama</td>
+                                        <td>
+                                            <input name="listGejala" value="@gejala.Id" type="checkbox" class="form-check-input form-check-primary">
+                                        </td>
+                                    </tr>
+                                }
+                                </tbody>
+                            </table>
+                            <div class="text-center mt-3">
+                                <button type="submit" class="btn btn-konsultasi">Submit</button>
+                            </div>
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section><!-- End Table Section -->
+}
+
+
+@if (ViewBag.result is not null)
+{
+    <div class="container mt-3" data-aos="fade-up">
+        <div class="card shadow">
+            <div class="card-header text-center" style="background-color: rgba(36,49,96,0.87)">
+                <h2 class="title text-white">Hasil Konsultasi</h2>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-5">
+                        <div class="mb-3 row">
+                            <label class="col-sm-6 col-form-label fw-bold">Nama</label>
+                            <div class="col-sm-6">
+                                <input type="text" readonly class="form-control-plaintext" value=": @ViewBag.result.Nama">
+                            </div>
+                        </div>
+                        <div class="mb-3 row">
+                            <label class="col-sm-6 col-form-label fw-bold">Umur</label>
+                            <div class="col-sm-6">
+                                <input type="text" readonly class="form-control-plaintext" value=": @ViewBag.result.Umur">
+                            </div>
+                        </div>
+                        <div class="mb-3 row">
+                            <label class="col-sm-6 col-form-label fw-bold">Jenis Kelamin</label>
+                            <div class="col-sm-6">
+                                <input type="text" readonly class="form-control-plaintext" value=": @ViewBag.result.JenisKelamin">
+                            </div>
+                        </div>
+                        <div class="mb-3 row">
+                            <label class="col-sm-6 col-form-label fw-bold">Hasil Diagnosa</label>
+                            <div class="col-sm-6">
+                                <input type="text" readonly class="form-control-plaintext" value=": @ViewBag.result.DiagnosaPenyakit.Nama">
+                            </div>
+                        </div>
+                        <div class="mb-3 row">
+                            <label class="col-sm-6 col-form-label fw-bold">Kecocokan</label>
+                            <div class="col-sm-6">
+                                <input type="text" readonly class="form-control-plaintext" value=": @ViewBag.result.Similiarity %">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="shadow col-7 ms-3" style="max-width: 570px;">
+                        <div class="row g-0 ">
+                            <div class="col-md-5 my-auto ">
+                              <img src="~/img/penyakit/@ViewBag.result.DiagnosaPenyakit.Gambar" style="height: 15em" class="img-fluid rounded-start img-thumbnail" alt="gambar-penyakit">
+                            </div>
+                            <div class="col-md-7 ">
+                                <div class="card-body">
+                                    <div>
+                                        <h5 class="card-title fw-bolder">Deskripsi</h5>
+                                        <p class="card-text" style="text-align: justify;">
+                                            @ViewBag.result.DiagnosaPenyakit.Deskripsi
+                                        </p>
+                                    </div>
+                                    <div class="mt-4">
+                                        <h5 class="card-title fw-bolder">Solusi</h5>
+                                        <p class="card-text" style="text-align: justify;">
+                                            @ViewBag.result.DiagnosaPenyakit.Solusi
+                                        </p>
+                                    </div>
+
+                                </div>
+                            </div>
+                          </div>
+                        </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+  
+}
+
+    

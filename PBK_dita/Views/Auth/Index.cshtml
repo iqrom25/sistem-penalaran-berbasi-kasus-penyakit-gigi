@@ -1,0 +1,192 @@
+
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@model PBK_dita.Models.LoginRegisterView
+
+@{
+	ViewData["Title"] = "Login";
+  Layout = "_Layout";
+  var login = "";
+  var register = "";
+  var loginWarp = "";
+  var registerWarp = "";
+  if (ViewBag.mode == "register")
+  {
+    register = "active";
+    login = "";
+    registerWarp = "is-visible";
+    loginWarp = "";
+  }
+  else
+  {
+    register = "";
+    login = "active";
+    registerWarp = "";
+    loginWarp = "is-visible";
+  }
+}
+
+<style>
+  .alert ul{
+      list-style: none;
+      margin : 0;
+  } 
+  
+  .tab-group {
+    list-style:none;
+    padding:0;
+    margin:0 0 30px 0;
+   
+}
+   .tab-group  li a {
+      display:block;
+      text-decoration:none;
+      padding:15px;
+      background:rgba(50,77,87,0.56);
+      color:white;
+      font-size:20px;
+      float:left;
+      width:50%;
+      text-align:center;
+      cursor:pointer;
+      transition:.5s ease;
+     
+    }
+    
+    .tab-group  #login a{
+     border-top-left-radius: 30px;
+    }
+    
+    .tab-group  #register a{
+     border-top-right-radius: 30px;
+    }
+    
+    .tab-group .active a {
+      background:#324357;
+      color:white;
+    }
+ 
+  .warp {
+    display: none;
+  }
+
+    .warp.is-visible {
+      display: block;
+    }
+</style>
+
+<section id="auth" class="auth">
+  <div class="container form-signin text-center mt-3">
+    <div class="card shadow" style="border-radius: 30px;width: 35em; margin:auto">
+      <ul class="tab-group">
+        <li class="tab @login" id="login"><a href="#login" onclick="onClickChange(0)">Login</a></li>
+        <li class="tab @register" id="register"><a href="#register" onclick="onClickChange(1)">Registrasi</a></li>
+      </ul>
+      <div class="warp @loginWarp" id="login-wrap">
+        <h1 class="h3 mb-3 fw-semi-bold">Selamat Datang</h1>
+        <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
+        <form asp-action="Login" method="POST" class="m-3" >
+          <div class="form-floating">
+            <input asp-for="LoginModel.Email" type="email" class="form-control"  placeholder="name@example.com">
+            <label asp-for="LoginModel.Email"></label>
+            <span asp-validation-for="LoginModel.Email" class="text-danger"></span>
+          </div>
+          <div class="form-floating mt-3">
+            <input asp-for="LoginModel.Password" id="password-login" type="password"  class="form-control"  placeholder="Password">
+            <label asp-for="LoginModel.Password"></label>
+            <span asp-validation-for="LoginModel.Password" class="text-danger"></span>
+          </div>
+          <div class="checkbox float-start mt-1 mb-3">
+            <label>
+              <input type="checkbox"  value="remember-me" onclick="showPassword('password-login')"> Show Password
+            </label>
+          </div>
+          @{
+            var returnUrl = ViewContext.HttpContext.Request.Query["ReturnUrl"];
+            if (!string.IsNullOrEmpty(returnUrl))
+            {
+              <input type="hidden" asp-for="LoginModel.ReturnUrl" value="@returnUrl"/>
+            }
+          }
+          <button class="w-100 btn btn-lg btn-primary mt-3" type="submit" style="background-color: #324357;border: 0">Login</button>
+          <p class="mt-5 mb-3 text-muted">&copy;@DateTimeOffset.Now.Year</p>
+        </form>      
+      </div>
+      
+      <div class="warp @registerWarp" id="register-wrap">
+        <h1 class="h3 mb-3 fw-semi-bold">Registrasi Sekarang</h1>
+        <form asp-action="Register" method="POST" class="m-3" >
+          <div class="form-floating">
+                  <input asp-for="User.Nama" class="form-control" placeholder="Nama">
+                  <label asp-for="User.Nama"></label>
+                  <span asp-validation-for="User.Nama" class="text-danger"></span>
+                </div>
+                <div class="form-floating mt-3">
+                  <input asp-for="User.Email" class="form-control"  placeholder="Password">
+                  <label asp-for="User.Email"></label>
+                  <span asp-validation-for="User.Email" class="text-danger"></span>
+                </div>
+                <div class="form-floating mt-3">
+                  <input asp-for="User.Umur" type="number" class="form-control"  placeholder="Password">
+                  <label asp-for="User.Umur"></label>
+                  <span asp-validation-for="User.Umur" class="text-danger"></span>
+                </div>
+                 <div class=" mt-3">
+                   <select class="form-select form-select-lg" asp-for="User.JenisKelamin">
+                     <option selected>Pilih Jenis Kelamin</option>
+                     <option value="Laki-laki">Laki-laki</option>
+                     <option value="Perempuan">Perempuan</option>
+                   </select>
+                 </div>      
+          <div class="form-floating mt-3">
+            <input asp-for="User.Password" type="password" id="password-register" class="form-control"  placeholder="Password">
+            <label asp-for="User.Password"></label>
+            <span asp-validation-for="User.Password" class="text-danger"></span>
+          </div>
+        <div class="checkbox float-start mt-1 mb-3">
+          <label>
+            <input type="checkbox"  value="remember-me" onclick="showPassword('password-register')"> Show Password
+          </label>
+        </div>
+          <button class="w-100 btn btn-lg btn-primary mt-3" type="submit" style="background-color: #324357;border: 0">Register</button>
+                <p class="mt-5 mb-3 text-muted">&copy;@DateTimeOffset.Now.Year</p>
+              </form>           
+      </div>
+      
+    </div>
+  
+  </div>
+</section>
+
+
+<script>
+
+const onShowChange = (id)=>{
+    const listForm = ['login-wrap','register-wrap'];
+    const selected = document.getElementById(listForm[id]);
+    const other = document.getElementById(listForm[(id==0)?1:0]);
+      
+    selected.classList.add('is-visible');
+    other.classList.remove('is-visible');
+}
+
+const onClickChange = (id)=>{
+  const listLi = ['login','register'];
+  const selected = document.getElementById(listLi[id]);
+  const other = document.getElementById(listLi[(id==0)?1:0]);
+  
+  selected.classList.add('active');
+  other.classList.remove('active');
+  
+  onShowChange(id);
+}
+
+
+const showPassword = (id)=>{
+    const input = document.getElementById(id);
+    if (input.type === "password") {
+      input.type = "text";
+    } else {
+      input.type = "password";
+    }
+}
+</script>

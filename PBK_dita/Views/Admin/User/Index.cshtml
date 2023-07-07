@@ -1,0 +1,62 @@
+
+@model IEnumerable<PBK_dita.Models.User>
+
+@{
+    ViewData["Title"] = "User";
+    ViewData["controller"] = "Admin";
+    ViewData["action"] = "Data User";
+    Layout = "_LayoutAdmin";
+}
+
+
+<div class="card mb-4">
+    <div class="card-header"><strong>Data User</strong></div>
+    <div class="card-body">
+        <table id="table" class="table table-striped" style="width:100%">
+            <thead>
+            <tr>
+                <th>No</th>
+                <th>@Html.DisplayNameFor(model => model.Nama)</th>
+                <th>@Html.DisplayNameFor(model => model.Email)</th>
+                <th>@Html.DisplayNameFor(model=>model.Umur)</th>
+                <th>@Html.DisplayNameFor(model=>model.JenisKelamin)</th>
+                <th>Aksi</th>
+            </tr>
+            </thead>
+            @{
+                if (Model.Count() > 0)
+                {
+                    int i = 1;
+                    <tbody>
+                    
+                    @foreach (var user in Model)
+                    {
+                        <tr>
+                             <td>@i</td>
+                             <td>@user.Nama</td>
+                             <td>@user.Email</td>
+                             <td>@user.Umur</td>
+                              <td>@user.JenisKelamin</td>
+                            <td>
+                                @* biar klo admin gk bisa dihapus *@
+                                @if (user.Role == 0)
+                                {
+                                    @* ada bug waktu kirim id lewat asp-route, jd diakalin paka js aja *@
+                                    <button class="btn btn-danger ms-2" onclick="onDeleteClick(@user.Id,'User')">
+                                        <i class="bi bi-trash3"></i>
+                                    </button>
+                                }
+                            </td>
+                        </tr>
+                        i++;
+                    }
+                   
+                    </tbody>
+                }
+            }
+
+        </table>
+    </div>
+</div>
+
+

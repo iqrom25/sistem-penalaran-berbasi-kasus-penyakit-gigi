@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+
+<!-- Breadcrumb-->
+<html lang="en">
+  <head>
+    <base href="./">
+    
+    <link href="~/img/logo-undana.png" rel="icon">
+    
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <meta name="description" content="CoreUI - Open Source Bootstrap Admin Template">
+    <meta name="author" content="Łukasz Holeczek">
+    <meta name="keyword" content="Bootstrap,Admin,Template,Open,Source,jQuery,CSS,HTML,RWD,Dashboard">
+    <title>@ViewData["Title"]</title>
+
+    <link rel="manifest" href="~/vendor_admin/assets/favicon/manifest.json">
+    <meta name="msapplication-TileColor" content="#ffffff">
+    <meta name="msapplication-TileImage" content="~/vendor_admin/assets/favicon/ms-icon-144x144.png">
+    <meta name="theme-color" content="#ffffff">
+    <!-- Vendors styles-->
+    <link rel="stylesheet" href="~/vendor_admin/vendors/simplebar/css/simplebar.css">
+    <link rel="stylesheet" href="~/vendor_admin/css/vendors/simplebar.css">
+    <!-- coreui icons-->
+    <link rel="stylesheet" href="~/vendor_admin/vendors/coreui/icons/css/brand.min.css">
+    <link rel="stylesheet" href="~/vendor_admin/vendors/coreui/icons/css/flag.min.css">
+    <link rel="stylesheet" href="~/vendor_admin/vendors/coreui/icons/css/free.min.css">
+    <!-- bootstrap icons-->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
+    <!-- Sweetalert -->
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <!-- Main styles for this application-->
+    <link href="~/vendor_admin/css/style.css" rel="stylesheet">
+
+    <!-- Datatables -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.js"></script>
+     @* <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous"> *@
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.1/css/jquery.dataTables.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.2/css/dataTables.bootstrap5.min.css"/>
+
+  </head>
+<body>
+
+    <partial name="_AdminSidebar"></partial>
+    <div class="wrapper d-flex flex-column min-vh-100 bg-light">
+      <partial name="_AdminHeader"></partial>
+      <div class="body flex-grow-1 px-3">
+        @RenderBody()
+      </div>
+      <partial name="_AdminFooter"></partial>
+    </div>
+
+<!-- CoreUI and necessary plugins-->
+<script src="~/vendor_admin/vendors/coreui/coreui/js/coreui.bundle.min.js"></script>
+<script src="~/vendor_admin/vendors/simplebar/js/simplebar.min.js"></script>
+<!-- Plugins and scripts required by this view-->
+<script src="~/vendor_admin/vendors/chart.js/js/chart.min.js"></script>
+<script src="~/vendor_admin/vendors/coreui/chartjs/js/coreui-chartjs.js"></script>
+<script src="~/vendor_admin/vendors/coreui/utils/js/coreui-utils.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
+<script src="~/vendor_admin/js/main.js"></script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  let table = document.querySelector("#table");
+  if (table)
+    table = new DataTable('#table');
+
+
+});
+
+
+</script>
+
+<script>
+
+const onDeleteClick = async (id,method)=>{
+   
+    const result = await Swal.fire({
+      title: 'Apakah anda yakin?',
+      text: "Anda tidak akan bisa mengembalikan data ini",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes'
+    });
+    
+    if (result.isConfirmed) {
+      try {
+        let isDeleted = await fetch(`/Admin/Delete${method}/${id}`,{method:'POST'});
+               isDeleted = await isDeleted.json();
+               
+               if(isDeleted == 1){
+                   
+                   Swal.fire(
+                         'Deleted!',
+                         'Your file has been deleted.',
+                         'success',
+                        
+                       )
+                  setTimeout(()=>{
+                      
+                  location.reload();
+                      
+                  },500)
+               }else{
+               Swal.fire({
+                        title: 'Data Gagal dihapus',
+                        icon:'error'
+                        })    
+               }
+      }catch (e){
+        Swal.fire({
+                    title: 'Data Gagal dihapus',
+                    icon:'error'
+                    })    
+      }
+       
+    }
+
+  }
+</script>
+
+@await Component.InvokeAsync("NToastNotify")
+
+</body>
+</html>

@@ -1,0 +1,75 @@
+@model PBK_dita.Models.Penyakit
+
+@{
+    ViewData["Title"] = "Tambah Penyakit";
+  ViewData["controller"] = "Admin";
+  ViewData["action"] = "Data Penyakit";
+  Layout = "_LayoutAdmin";
+}
+
+
+<div class="card mb-4">
+  <div class="card-header"><strong>Tambah Data Penyakit</strong></div>
+  <div class="card-body">
+    <form asp-action="TambahPenyakit" method="POST" enctype="multipart/form-data">
+      <div class="row mb-3">
+        <label asp-for="KodePenyakit" class="col-sm-2 col-form-label"></label>
+        <div class="col-sm-5">
+          <input type="text" class="form-control" asp-for="KodePenyakit">
+          <span asp-validation-for="KodePenyakit" class="text-danger"></span>
+        </div>
+      </div>
+      <div class="row mb-3">
+        <label asp-for="Nama" class="col-sm-2 col-form-label"></label>
+        <div class="col-sm-5">
+          <input type="text" class="form-control" asp-for="Nama">
+          <span asp-validation-for="Nama" class="text-danger"></span>
+        </div>
+      </div>
+      <div class="row mb-3">
+        <label asp-for="Deskripsi" class="col-sm-2 col-form-label"></label>
+        <div class="col-sm-5">
+          <textarea rows="5" type="text" class="form-control" asp-for="Deskripsi"></textarea>
+          <span asp-validation-for="Deskripsi" class="text-danger"></span>
+        </div>
+      </div>
+      <div class="row mb-3">
+        <label asp-for="Solusi" class="col-sm-2 col-form-label"></label>
+        <div class="col-sm-5">
+          <textarea rows="5" type="text" class="form-control" asp-for="Solusi"></textarea>
+          <span asp-validation-for="Solusi" class="text-danger"></span>
+        </div>
+      </div>
+      <div class="row mb-3">
+        <label asp-for="ImageFile" class="col-sm-2 col-form-label"></label>
+        <div class="col-sm-5 custom-file-input">
+          <input type="file" id="image" accept="image/*" class="form-control" asp-for="ImageFile" onchange="previewImage()">
+          <img id="thumbnail" src="~/img/img-login.jpeg" class="img-thumbnail d-none" alt="preview">
+          <span asp-validation-for="ImageFile" class="text-danger"></span>
+        </div>
+      </div>
+      <button type="submit" class="btn btn-primary">Simpan</button>
+      <button type="reset" class="btn btn-primary">Reset</button>
+    </form>
+  </div>
+</div>
+
+<script>
+
+const previewImage = ()=>{
+
+  const thumbnail = document.getElementById('thumbnail');
+  const input = document.getElementById('image');
+  thumbnail.src = URL.createObjectURL(input.files[0]);
+  thumbnail.classList.remove('d-none');
+  
+
+}
+
+window.onload = (event) => {
+  
+      const input = document.getElementById('image');
+
+};
+
+</script>

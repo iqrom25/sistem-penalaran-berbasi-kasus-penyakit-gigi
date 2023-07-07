@@ -1,0 +1,40 @@
+@model RevisiModel
+
+@{
+  ViewData["Title"] = "Revisi Hasil Konsultasi";
+  ViewData["controller"] = "Admin";
+  ViewData["action"] = "Data Riwayat Konsultasi";
+  Layout = "_LayoutAdmin";
+}
+
+<div class="card mb-4">
+  <div class="card-header"><strong>Revisi Hasil Konsultasi</strong></div>
+  <div class="card-body">
+    <form asp-action="RevisiRiwayat" method="POST">
+      <input type="hidden" asp-for="IdRiwayat" value="@Model.IdRiwayat"/>
+      <div class="row mb-3">
+        <label asp-for="IdPenyakit"  class="col-sm-2 col-form-label"></label>
+        <div class="col-sm-5">
+          <select class="form-select" asp-for="IdPenyakit">
+            <option value="0">Pilih Penyakit</option>
+            @foreach (var penyakit in ViewBag.penyakit)
+            {
+              var isSelected = (int)penyakit.Id == Model.IdPenyakit;
+              <option value="@penyakit.Id" selected="@(isSelected ? "selected" : null)">@penyakit.Nama</option>
+            }
+          </select>
+          <span asp-validation-for="IdPenyakit" class="text-danger"></span>
+        </div>
+      </div>
+      <div class="row mb-3">
+        <label asp-for="Similiarity" class="col-sm-2 col-form-label"></label>
+        <div class="col-sm-5">
+          <input type="number" step="any" class="form-control" asp-for="Similiarity">
+          <span asp-validation-for="Similiarity" class="text-danger"></span>
+        </div>
+      </div>
+      <button type="submit" class="btn btn-primary">Revisi</button>
+      <a asp-action="RiwayatKonsultasi" class="btn btn-primary">Kembali</a>
+    </form>
+  </div>
+</div>

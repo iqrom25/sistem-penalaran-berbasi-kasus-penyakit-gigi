@@ -1,0 +1,62 @@
+@model PBK_dita.Models.CreateEditRekamMedis
+
+@{
+    ViewData["Title"] = "Tambah Rekam Medis";
+    ViewData["controller"] = "Admin";
+    ViewData["action"] = "Data Rekam Medis";
+    Layout = "_LayoutAdmin";
+    
+}
+
+<div class="card mb-4">
+  <div class="card-header"><strong>Tambah Rekam Medis</strong></div>
+  <div class="card-body">
+    <form asp-action="TambahRekamMedis" method="POST">
+      <div class="row mb-3">
+        <label asp-for="IdPenyakit" class="col-sm-2 col-form-label"></label>
+        <div class="col-sm-5">
+          <select class="form-select" asp-for="IdPenyakit">
+            <option selected value="0">Pilih Penyakit</option>
+            @foreach (var penyakit in ViewBag.penyakit)
+            {
+              <option value="@penyakit.Id">@penyakit.Nama</option>
+            }
+          </select>
+          <span asp-validation-for="IdPenyakit" class="text-danger"></span>
+        </div>
+      </div>
+       <div class="row mb-3">
+              <label class="col-sm-2 col-form-label">Gejala</label>
+              <div class="col-sm-5">
+                  <div class="table-responsive table-100">
+                      <table class="table table-striped table-bordered mb-0">
+                          <thead>
+                          <tr>
+                            <th class="table-90 align-center">Kode Gejala</th>
+                            <th class="table-90 align-center">Nama Gejala</th>
+                            <th class="table-10">Pilih</th>
+                          </tr>
+                          </thead>
+                          <tbody>
+                          @foreach (var gejala in ViewBag.gejala)
+                          {
+                            <tr>
+                              <td>@gejala.KodeGejala</td>
+                              <td>@gejala.Nama</td>
+                              <td>
+                                <input name="Ids" value="@gejala.Id" type="checkbox" class="form-check-input form-check-primary">
+                              </td>
+                            </tr>
+                          }
+                          </tbody>
+                      </table>
+                  </div>
+                  <span asp-validation-for="ListIdGejala" class="text-danger"></span>
+              </div>
+            </div>
+
+      <button type="submit" class="btn btn-primary">Simpan</button>
+      <button type="reset" class="btn btn-primary">Reset</button>
+    </form>
+  </div>
+</div>

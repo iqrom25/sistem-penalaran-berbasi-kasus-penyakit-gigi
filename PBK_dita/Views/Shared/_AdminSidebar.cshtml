@@ -1,0 +1,35 @@
+
+  <div class="sidebar sidebar-dark sidebar-fixed" id="sidebar">
+      <div class="sidebar-brand d-none d-md-flex">
+        <div class="sidebar-brand-full d-flex">
+          <i class="bi bi-person-fill-gear" style="font-size: 1.5rem"></i>
+          <p class="fs-3 ms-2">Administrator</p>
+        </div>
+      </div>
+      <ul class="sidebar-nav" data-coreui="navigation" data-simplebar="">
+        <li class="nav-item"><a class="nav-link" asp-action="Index">
+          <i class="nav-icon bi bi-speedometer2"></i> Dashboard</a>
+          </li>
+        <li class="nav-item"><a class="nav-link" asp-action="Penyakit" >
+          <i class="nav-icon bi bi-virus">
+          </i> Penyakit</a>
+          </li>
+        <li class="nav-item"><a class="nav-link" asp-action="Gejala">
+            <i class="nav-icon bi bi-bandaid-fill">
+            </i> Gejala</a>
+        </li>
+        <li class="nav-item"><a class="nav-link" asp-action="RekamMedis">
+            <i class="nav-icon bi bi-database-check">
+            </i> Rekam Medis</a>
+        </li>
+        <li class="nav-item"><a class="nav-link" asp-action="RiwayatKonsultasi">
+            <i class="nav-icon bi bi-clipboard2-check">
+            </i> Riwayat Konsultasi</a>
+        </li>
+        <li class="nav-item"><a class="nav-link" asp-action="User">
+            <i class="nav-icon bi bi-people-fill">
+            </i> User</a>
+        </li>        
+      </ul>
+      <button class="sidebar-toggler" type="button" data-coreui-toggle="unfoldable"></button>
+    </div>

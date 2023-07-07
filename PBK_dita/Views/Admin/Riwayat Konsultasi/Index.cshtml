@@ -1,0 +1,197 @@
+@model IEnumerable<PBK_dita.Models.RiwayatKonsultasi>
+
+@{
+    ViewData["Title"] = "Riwayat Konsultasi";
+    ViewData["controller"] = "Admin";
+    ViewData["action"] = "Data Riwayat Konsultasi";
+    Layout = "_LayoutAdmin";
+}
+
+
+<div class="card mb-4">
+    <div class="card-header"><strong>Data Riwayat Konsultasi</strong></div>
+    <div class="card-body">
+        <table id="table" class="table table-striped" style="width:100%">
+            <thead>
+            <tr>
+                <th >No</th>
+                <th >User</th>
+                <th >@Html.DisplayNameFor(model=>model.TanggalInput)</th>
+                <th >Diagnosa</th>
+                <th >@Html.DisplayNameFor(model=>model.Similiarity)</th>
+                <th >@Html.DisplayNameFor(model=>model.Status)</th>
+                <th >Aksi</th>
+            </tr>
+            </thead>
+            @{
+                if (Model.Count() > 0)
+                {
+                    int i = 1;
+                    <tbody>
+                    
+                    @foreach (var riwayat in Model)
+                    {
+                        
+                        var dataRiwayat = new
+                        {
+                            name = riwayat.User.Nama,
+                            age = riwayat.User.Umur,
+                            gender = riwayat.User.JenisKelamin,
+                            listGejala = riwayat.ListGejala.Select(gejala=>gejala.Nama).ToArray(),
+                            result = riwayat.Penyakit.Nama,
+                            similiarity = riwayat.Similiarity,
+                            solution = riwayat.Penyakit.Solusi
+                                         
+                        };
+                        var jsonRiwayat = Newtonsoft.Json.JsonConvert.SerializeObject(dataRiwayat);
+                        var status = riwayat.Status switch
+                        {
+                            0 => "Perlu revisi",
+                            1 => "Perlu Retain",
+                            2 => "Sudah masuk basis data",
+                            _ => ""
+                            
+                            };
+                        
+                            <tr>
+                                <td>@i</td>
+                                <td>@riwayat.User.Email</td>
+                                <td>@riwayat.TanggalInput.ToString("dddd, dd MMMM yyyy",new System.Globalization.CultureInfo("id-ID"))</td>
+                                <td>@riwayat.Penyakit.Nama</td>
+                                <td>@riwayat.Similiarity%</td>
+                                <td>@status</td>
+                                <td >
+                                    <div class="d-flex">
+
+                                        <a onclick="onClickDetail(@jsonRiwayat)" class="btn btn-info">
+                                            <i class="bi bi-eye"></i>
+                                        </a>
+                                        @if (riwayat.Status == 0)
+                                        {
+                                            <a asp-action="RevisiRiwayat" asp-route-id="@riwayat.Id" class="btn btn-warning ms-2">
+                                                <i class="bi bi-pencil-square"></i>
+                                            </a>
+                                        }
+                                        @if (riwayat.Status == 1)
+                                        {
+                                            <form id="form-@riwayat.Id" method="POST" asp-action="AddRiwayatToDb">
+                                                
+                                                <input type="hidden" value="@riwayat.Id" name="id"/>
+                                                <a type="submit" class="btn btn-secondary ms-2" onclick="confirmAdd(@riwayat.Id)">
+                                                    <i class="bi bi-database-add"></i>
+                                                </a>
+                                            </form>
+                                        }
+
+                                    </div>
+                                </td>
+                            </tr>
+                        i++;
+                    }
+                   
+                    </tbody>
+                }
+            }
+
+        </table>
+    </div>
+</div>   
+                    
+                    <!-- Modal Detail -->
+<div class="modal fade" id="detail" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Detail Riwayat</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="card-body">
+                    <div class="table-responsive table-100">
+                        <table class="table table-striped table-bordered mb-0">
+                            <tbody>
+                            <tr>
+                                <td class="fw-bold">Nama</td>
+                                <td id="nama">tes</td>
+                            </tr>
+                            <tr>
+                                <td class="fw-bold">Umur</td>
+                                <td id="umur"></td>
+                            </tr>
+                            <tr>
+                                <td class="fw-bold">Jenis Kelamin</td>
+                                <td id="jk"></td>
+                            </tr>
+                            <tr>
+                                <td class="fw-bold">Gejala</td>
+                                <td >
+                                    <ol id="gejala" style="padding-left: 20px">
+                                    </ol>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="fw-bold">Hasil Diagnosa</td>
+                                <td id="hasil"></td>
+                            </tr>
+                            <tr>
+                                <td class="fw-bold">Kecocokan</td>
+                                <td id="similiarity"></td>
+                            </tr>
+                            <tr>
+                                <td class="fw-bold">Solusi</td>
+                                <td id="solusi">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Perspiciatis cum recusandae eum laboriosam voluptatem repudiandae odio, vel exercitationem officiis provident minima.
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Tutup</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+
+const onClickDetail = (data)=>{
+const modal = document.getElementById('detail');
+document.getElementById('nama').innerText = data.name;
+document.getElementById('umur').innerText = data.age;
+document.getElementById('jk').innerText = data.gender;
+document.getElementById('hasil').innerText = data.result;
+document.getElementById('similiarity').innerText = data.similiarity;
+document.getElementById('solusi').innerText = data.solution;
+const gejala = document.getElementById('gejala');
+let listGejala = '';
+data.listGejala.forEach(gejala =>{
+    listGejala += `<li>${gejala}</li>\n`
+})
+gejala.innerHTML = listGejala
+new bootstrap.Modal(modal).show();
+}
+
+const confirmAdd = async(id)=>{
+      const result = await Swal.fire({
+          title: 'Apakah anda yakin ingin menambahkan data ke database ?',
+          text: "Data riwayat akan tersimpan ke database sebagai Rekam Medis",
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#3085d6',
+          cancelButtonColor: '#d33',
+          confirmButtonText: 'Yes'
+        });
+        
+        if (result.isConfirmed) {
+          const form = document.getElementById(`form-${id}`);
+          console.log(form)
+          form.submit();
+           
+        }
+
+}
+    
+
+</script>

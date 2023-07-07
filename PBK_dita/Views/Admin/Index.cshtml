@@ -1,0 +1,118 @@
+@model dynamic
+
+@{
+    ViewData["Title"] = "Dashboard";
+  ViewData["controller"] = "Admin";
+  ViewData["action"] = "Dashboard";
+  (int Penyakit,int Gejala, int RekamMedis, int RiwayatKonsultasi, int User) total = ViewBag.total;
+    Layout = "_LayoutAdmin";
+}
+
+<style>
+
+    .card-icon{
+      font-size: 4em;
+      color: rgba(255,255,255,0.3);
+      margin-right: 10px;
+    }
+    
+
+</style>
+
+<div class="container">
+    <div class="row">
+    <div class="col-md-3">
+      <div class="card shadow mb-4 text-white bg-secondary">
+        <div class="card-body pb-0 d-flex justify-content-between align-items-start">
+          <div>
+            <div class="fs-2 fw-semibold">@total.Penyakit</div>
+            <div style="font-size: 1.2em">Penyakit</div>
+          </div>
+          <i class="bi bi-virus card-icon" ></i>
+        </div>
+        <div class="card-footer d-flex justify-content-center align-items-center" 
+             style="background-color: rgba(175,175,175,0.57)">
+          <a asp-action="Penyakit" class="text-white" style="text-decoration: none"> Lihat info
+            <i class="ms-2 bi bi-arrow-right-circle-fill"></i>
+          </a>
+        </div>
+      </div>
+    </div>
+
+      <div class="col-md-3">
+        <div class="card shadow mb-4 text-white bg-warning">
+          <div class="card-body pb-0 d-flex justify-content-between align-items-start">
+            <div>
+              <div class="fs-2 fw-semibold">@total.Gejala</div>
+              <div style="font-size: 1.2em">Gejala</div>
+            </div>
+            <i class="bi bi-bandaid-fill card-icon" ></i>
+          </div>
+          <div class="card-footer d-flex justify-content-center align-items-center"
+               style="background-color: rgba(183,155,31,0.53)">
+            <a asp-action="Gejala" class="text-white" style="text-decoration: none"> Lihat info  
+              <i class="nav-icon bi-arrow-right-circle-fill"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+      
+      <div class="col-md-3">
+        <div class="card shadow mb-4 text-white bg-danger">
+          <div class="card-body pb-0 d-flex justify-content-between align-items-start">
+            <div>
+              <div class="fs-2 fw-semibold">@total.RekamMedis</div>
+              <div style="font-size: 1.2em">Rekam Medis</div>
+            </div>
+            <i class="nav-icon bi bi-database-check card-icon"></i>
+          </div>
+          <div class="card-footer d-flex justify-content-center align-items-center"
+               style="background-color: rgba(183,31,31,0.53)">
+            <a asp-action="RekamMedis" class="text-white" style="text-decoration: none"> Lihat info  
+              <i class="nav-icon bi-arrow-right-circle-fill"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+      
+      <div class="col-md-3">
+        <div class="card shadow mb-4 text-white bg-primary">
+          <div class="card-body pb-0 d-flex justify-content-between align-items-start">
+            <div>
+              <div class="fs-2 fw-semibold">@total.RiwayatKonsultasi</div>
+              <div style="font-size: 1em">Riwayat Konsultasi</div>
+            </div>
+            <i class="nav-icon bi bi-clipboard2-check card-icon"></i>
+          </div>
+          <div class="card-footer d-flex justify-content-center align-items-center"
+               style="background-color: rgba(31,79,183,0.53)">
+            <a asp-action="RiwayatKonsultasi" class="text-white" style="text-decoration: none"> Lihat info  
+              <i class="nav-icon bi-arrow-right-circle-fill"></i>
+            </a>
+          </div>
+        </div>
+      </div>    
+      
+      <div class="col-md-3">
+        <div class="card shadow mb-4 text-white bg-primary">
+          <div class="card-body pb-0 d-flex justify-content-between align-items-start">
+            <div>
+              <div class="fs-2 fw-semibold">@total.User</div>
+              <div style="font-size: 1em">User</div>
+            </div>
+            <i class="nav-icon bi bi-people-fill card-icon"></i>
+          </div>
+          <div class="card-footer d-flex justify-content-center align-items-center"
+               style="background-color: rgba(31,79,183,0.53)">
+            <a asp-action="User" class="text-white" style="text-decoration: none"> Lihat info  
+              <i class="nav-icon bi-arrow-right-circle-fill"></i>
+            </a>
+          </div>
+        </div>
+      </div>  
+      
+    </div>
+</div>
+
+
+

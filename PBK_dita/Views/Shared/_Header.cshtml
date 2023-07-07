@@ -1,0 +1,42 @@
+@using System.Security.Claims
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@{
+    var user = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role);
+}
+
+
+<!-- ======= Header ======= -->
+<header id="header" class="header d-flex align-items-center fixed-top">
+    <div class="container-fluid container-xl d-flex align-items-center justify-content-between">
+
+        <a asp-action="Index" class="logo d-flex align-items-center">
+            <!-- Uncomment the line below if you also wish to use an image logo -->
+            <img src="~/img/logo-undana.png" alt="">
+            <h1 class="d-flex align-items-center">PBK Penyakit Gigi & Mulut</h1>
+        </a>
+
+        <i class="mobile-nav-toggle mobile-nav-show bi bi-list"></i>
+        <i class="mobile-nav-toggle mobile-nav-hide d-none bi bi-x"></i>
+
+        <nav id="navbar" class="navbar">
+            <ul>
+                <li><a asp-controller="Home" asp-action="Index" class="@(ViewData["Title"].ToString()=="Home"?"active":null)">Home</a></li>
+                @if (user is not null)
+                {
+                    @if (user.Value == "1")
+                    {
+                        <li><a target="_blank" asp-action="Index" asp-controller="Admin">Dashboard</a></li>
+                    }
+                    <li><a asp-controller="Home" asp-action="Konsultasi" class="@(ViewData["Title"].ToString()=="Konsultasi"?"active":null)">Konsultasi</a></li>
+                    <li><a asp-controller="Home" asp-action="Riwayat" class="@(ViewData["Title"].ToString()=="Riwayat"?"active":null)">Riwayat</a></li>
+                    <li ><a style="padding : 7px 10px 7px 10px; " class="btn-login" asp-action="Logout" asp-controller="Auth">Logout</a></li>
+                }
+                else
+                {
+                    <li ><a style="padding : 7px 10px 7px 10px; " class="btn-login" asp-action="Index" asp-controller="Auth">Login</a></li>
+                }
+            </ul>
+        </nav><!-- .navbar -->
+
+    </div>
+</header><!-- End Header -->

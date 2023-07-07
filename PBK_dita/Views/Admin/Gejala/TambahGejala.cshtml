@@ -1,0 +1,32 @@
+@model PBK_dita.Models.Gejala
+
+@{
+    ViewData["Title"] = "Tambah Gejala";
+  ViewData["controller"] = "Admin";
+  ViewData["action"] = "Data Gejala";
+  Layout = "_LayoutAdmin";
+}
+
+<div class="card mb-4">
+  <div class="card-header"><strong>Tambah Data Gejala</strong></div>
+  <div class="card-body">
+    <form asp-action="TambahGejala" method="POST">
+      <div class="row mb-3">
+        <label asp-for="KodeGejala" class="col-sm-2 col-form-label"></label>
+        <div class="col-sm-5">
+          <input type="text" class="form-control" asp-for="KodeGejala">
+          <span asp-validation-for="KodeGejala" class="text-danger"></span>
+        </div>
+      </div>
+      <div class="row mb-3">
+        <label asp-for="Nama" class="col-sm-2 col-form-label"></label>
+        <div class="col-sm-5">
+          <input type="text" class="form-control" asp-for="Nama">
+          <span asp-validation-for="Nama" class="text-danger"></span>
+        </div>
+      </div>
+      <button type="submit" class="btn btn-primary">Simpan</button>
+      <button type="reset" class="btn btn-primary">Reset</button>
+    </form>
+  </div>
+</div>
